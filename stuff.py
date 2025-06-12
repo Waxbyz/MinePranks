@@ -5,7 +5,7 @@ mc = Minecraft()
 def clear(x, y, z, width, height, depth):
     mc.setBlockCube("air", Vec3(x, y, z), Vec3(x + width, y + height, z + depth))
 
-def choose_player():
+def choose_player() -> str:
     players = [player.name for player in mc.getPlayerList()]
     print(f"Player List: {players}")
 
