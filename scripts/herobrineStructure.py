@@ -34,7 +34,6 @@ def herobrine_structure(x: float, y: float, z: float, player, nbt: NBT, number: 
 
     if item_name is None:
         item_name = "air"
-        item_number = 0
         mc.getPlayer(player).replaceItem("weapon.mainhand", "flint_and_steel")
     else:
         mc.getPlayer(player).replaceItem("weapon.mainhand", "flint_and_steel")

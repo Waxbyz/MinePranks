@@ -8,13 +8,15 @@ def clear(x, y, z, width, height, depth):
 def choose_player():
     players = [player.name for player in mc.getPlayerList()]
     print(f"Player List: {players}")
+
     player_name = input("Choose a player: ")
-    if player_name in players:
-        print(f"Player {player_name} selected!")
-        return player_name
-    else:
-        print(f"Player {player_name} not found!")
-        return None
+
+    while player_name not in players:
+        print(f"Player '{player_name}' not found! Try again.")
+        player_name = input("Choose a player: ")
+
+    print(f"Player '{player_name}' selected!")
+    return player_name
 
 def get_slot(nbt: NBT, number: int) -> tuple[Block | None, int | None]:
     slot = next((slot for slot in nbt["Inventory"] if slot["Slot"] == number), None)
