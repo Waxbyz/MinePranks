@@ -1,7 +1,9 @@
+import random
 import keyboard
 from mcpq import Minecraft
 from stuff import choose_player
 from scripts.herobrineStructure import herobrine_structure
+from scripts.tunnel import tunnel
 
 mc = Minecraft()
 player_name = choose_player()
@@ -14,5 +16,10 @@ def build_herobrine_structure():
     x, y, z = pos.x, pos.y, pos.z
     herobrine_structure(x, y, z, player_name, nbt, selected_item_slot)
 
+def build_tunnel():
+    x, y, z = random.randint(0, 1000000), random.randint(-44, 0), random.randint(0, 1000000)
+    tunnel(x, y, z, player, player_name)
+
 keyboard.add_hotkey('ctrl+n', lambda: build_herobrine_structure())
+keyboard.add_hotkey('ctrl+r', lambda: build_tunnel())
 keyboard.wait('ctrl+home')
