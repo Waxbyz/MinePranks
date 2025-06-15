@@ -1,6 +1,9 @@
+import time
 from mcpq import Minecraft, Vec3, Block, Player
+from stuff import block_save
 
 mc = Minecraft()
+structure = []
 
 def is_air_free(func):
     def wrapper(x, y, z, player, player_name):
@@ -24,7 +27,12 @@ def tunnel(x: int, y: int, z: int, player: Player | str, player_name: str) -> No
     mc.setBlock("deepslate", Vec3(x + 81, y, z))
     mc.setBlock("deepslate", Vec3(x + 81, y + 1, z))
     mc.setBlock("deepslate", Vec3(x - 1, y, z))
-    mc.setBlock("deepslate", Vec3(x, y + 1, z))
+    mc.setBlock("deepslate", Vec3(x - 1, y + 1, z))
+
+    mc.setBlock("bedrock", Vec3(x + 82, y, z))
+    mc.setBlock("bedrock", Vec3(x + 82, y + 1, z))
+    mc.setBlock("bedrock", Vec3(x - 2, y, z))
+    mc.setBlock("bedrock", Vec3(x - 2, y + 1, z))
 
     for number in range(11):
         mc.setBlock(Block("redstone_wall_torch").withData({"facing": "south"}), Vec3(x, y + 1, z))
@@ -33,3 +41,16 @@ def tunnel(x: int, y: int, z: int, player: Player | str, player_name: str) -> No
     mc.runCommand(f"effect give {player_name} darkness infinite")
 
     player.pos = Vec3(x + 1, y, z)
+
+    while True:
+        pos = player.pos
+        x1, y1, z1 = pos.x, pos.y, pos.z
+
+        for dx, dy, dz in [(0, -1, 0), (0, 2, 0), (0, 0, -1),
+                           (0, 1, -1), (0, 0, 1), (0, 1, 1),]:
+            block = mc.getBlock(Vec3(x1 + dx, y1 + dy, z1 + dz))\
+
+            if block == "air":
+                mc.setBlock("deepslate", Vec3(x1 + dx, y1 + dy, z1 + dz))
+
+        time.sleep(0.1)
