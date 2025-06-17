@@ -24,10 +24,8 @@ def herobrine_structure(x: float, y: float, z: float, player, nbt: NBT, number: 
 
     mc.setBlock("netherrack", Vec3(x + 1, y + 1, z + 1))
 
-    mc.setBlock("redstone_torch", Vec3(x, y + 1, z))
-    mc.setBlock("redstone_torch", Vec3(x + 2, y + 1, z))
-    mc.setBlock("redstone_torch", Vec3(x, y + 1, z + 2))
-    mc.setBlock("redstone_torch", Vec3(x + 2, y + 1, z + 2))
+    for dx, dy, dz in [(0, 1, 0), (2, 1, 0), (0, 1, 2), (2, 1, 2)]:
+        mc.setBlock("redstone_torch", Vec3(x + dx, y + dy, z + dz))
 
     item_name, item_number = get_slot(nbt, number)
     print(item_name, item_number)
