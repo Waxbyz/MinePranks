@@ -1,13 +1,14 @@
 import time
 from mcpq import Minecraft, Vec3, Block, Player
-from stuff import block_save
+from mcpq.text import RED, ILLEGIBLE
+from stuff import block_load, block_save
 
 mc = Minecraft()
 structure = []
 
 def is_air_free(func):
     def wrapper(x, y, z, player, player_name):
-        front = mc.getBlock(Vec3(x + 82, y, z))
+        front = mc.getBlock(Vec3(x + 83, y, z))
         side = mc.getBlock(Vec3(x, y, z + 2))
         while front == "air" and side == "air":
             print(f"Error! Blocks detected: side={side}, front={front}. Try again.")
@@ -18,6 +19,11 @@ def is_air_free(func):
 
 @is_air_free
 def tunnel(x: int, y: int, z: int, player: Player | str, player_name: str) -> None:
+    start_x = x
+    start_y = y
+    start_z = z
+    print(x)
+
     mc.setBlockCube("air", Vec3(x, y, z), Vec3(x + 80, y + 1, z))
 
     mc.setBlockCube("deepslate", Vec3(x, y, z - 1), Vec3(x + 80, y + 1, z - 1))
@@ -35,22 +41,33 @@ def tunnel(x: int, y: int, z: int, player: Player | str, player_name: str) -> No
     mc.setBlock("bedrock", Vec3(x - 2, y + 1, z))
 
     for number in range(11):
-        mc.setBlock(Block("redstone_wall_torch").withData({"facing": "south"}), Vec3(x, y + 1, z))
+        mc.setBlock(Block("redstone_wall_torch").withData({"facing": "north"}), Vec3(x, y + 1, z))
         x += 7
 
     mc.runCommand(f"effect give {player_name} darkness infinite")
 
-    player.pos = Vec3(x + 1, y, z)
+    player.pos = Vec3(start_x, start_y, start_z)
+
+    time.sleep(1)
 
     while True:
         pos = player.pos
         x1, y1, z1 = pos.x, pos.y, pos.z
 
+        if x1 > start_x + 72:
+            mc.postToChat(RED + ILLEGIBLE + "DIE!")
+            for idk in range(10):
+                mc.setBlockCube("air", Vec3(x, y, z), Vec3(x - 80, y - mc.getHeight(x1, z1), z))
+                time.sleep(0.1)
+            break
+
         for dx, dy, dz in [(0, -1, 0), (0, 2, 0), (0, 0, -1),
                            (0, 1, -1), (0, 0, 1), (0, 1, 1),]:
-            block = mc.getBlock(Vec3(x1 + dx, y1 + dy, z1 + dz))\
+            block = mc.getBlock(Vec3(x1 + dx, y1 + dy, z1 + dz))
 
             if block == "air":
                 mc.setBlock("deepslate", Vec3(x1 + dx, y1 + dy, z1 + dz))
+
+        player.pos = Vec3(start_x, start_y, start_z)
 
         time.sleep(0.1)
