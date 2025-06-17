@@ -24,21 +24,21 @@ def get_slot(nbt: NBT, number: int) -> tuple[Block | None, int | None]:
         return Block(slot["id"]), slot["count"]
     return None, None
 
-def sortPair(val1, val2):
+def sort_pair(val1, val2):
     if val1 > val2:
         return val2, val1
     else:
         return val1, val2
 
 def block_save(x1: float, y1: float, z1: float, x2: float, y2: float, z2: float, structure):
-    x1, x2 = sortPair(x1, x2)
-    y1, y2 = sortPair(y1, y2)
-    z1, z2 = sortPair(z1, z2)
+    x1, x2 = sort_pair(x1, x2)
+    y1, y2 = sort_pair(y1, y2)
+    z1, z2 = sort_pair(z1, z2)
 
     width = x2 - x1
     height = y2 - y1
     depth = z2 - z1
-    structure = []
+
     print("Wait a minute...")
 
     for dz in range(int(depth + 1)):
@@ -50,7 +50,6 @@ def block_save(x1: float, y1: float, z1: float, x2: float, y2: float, z2: float,
                 row.append(block)
             layer.append(row)
         structure.append(layer)
-    print(structure)
     return structure
 
 def block_load(x, y, z, structure):

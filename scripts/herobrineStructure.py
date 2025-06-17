@@ -10,6 +10,7 @@ def is_place_free(func):
     def wrapper(x, y, z, player, nbt: NBT, number: int):
         front = mc.getBlock(Vec3(x + 2, y, z))
         side = mc.getBlock(Vec3(x, y, z + 2))
+
         if side in blocks and front in blocks:
             print(f"Place is free at {x}, {y}, {z}")
             func(x, y, z, player, nbt, number)
