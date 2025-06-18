@@ -1,3 +1,4 @@
+import random
 from mcpq import Minecraft, Vec3, NBT, Block
 
 mc = Minecraft()
@@ -11,9 +12,12 @@ def choose_player() -> str:
 
     player_name = input("Choose a player: ")
 
-    while player_name not in players:
-        print(f"Player '{player_name}' not found! Try again.")
-        player_name = input("Choose a player: ")
+    if player_name == "random" or player_name == "Random":
+        player_name = random.choice(players)
+    else:
+        while player_name not in players:
+            print(f"Player '{player_name}' not found! Try again.")
+            player_name = input("Choose a player: ")
 
     print(f"Player '{player_name}' selected!")
     return player_name
@@ -58,3 +62,5 @@ def block_load(x, y, z, structure):
         for dy, row in enumerate(layer):
             for dx, block in enumerate(row):
                     mc.setBlock(block, Vec3(x + dx, y + dy, z + dz))
+
+    print("Success!")

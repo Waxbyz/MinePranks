@@ -24,7 +24,7 @@ def tunnel(x: int, y: int, z: int, player: Player | str, player_name: str) -> No
     start_y = y
     start_z = z
 
-    block_save(start_x - 3, start_y + 2, start_z, start_x + 83, -64, start_z, structure)
+    block_save(start_x - 3, start_y + 2, start_z - 1, start_x + 83, -64, start_z + 1, structure)
 
     mc.setBlockCube("air", Vec3(x, y, z), Vec3(x + 80, y + 1, z))
 
@@ -58,11 +58,12 @@ def tunnel(x: int, y: int, z: int, player: Player | str, player_name: str) -> No
 
         if x1 > start_x + 72:
             mc.postToChat(RED + ILLEGIBLE + "LET HIM COOK NOW LET HIM COOK I SAID LET HIM COOK!")
-            for idk in range(10):
+            for idk in range(100):
                 mc.setBlockCube("air", Vec3(start_x, start_y, start_z), Vec3(start_x + 80, -64, start_z))
                 time.sleep(0.1)
             time.sleep(10)
             block_load(start_x, -64, start_z, structure)
+            structure.clear()
             break
 
         for dx, dy, dz in [(0, -1, 0), (0, 2, 0), (0, 0, -1),
@@ -73,5 +74,3 @@ def tunnel(x: int, y: int, z: int, player: Player | str, player_name: str) -> No
                 mc.setBlock("deepslate", Vec3(x1 + dx, y1 + dy, z1 + dz))
 
         time.sleep(0.1)
-
-    player.pos = Vec3(start_x, start_y, start_z)
