@@ -54,6 +54,8 @@ def block_save(x1: float, y1: float, z1: float, x2: float, y2: float, z2: float,
                 row.append(block)
             layer.append(row)
         structure.append(layer)
+    print("All blocks have been saved!")
+
     return structure
 
 def block_load(x, y, z, structure):
@@ -63,4 +65,4 @@ def block_load(x, y, z, structure):
             for dx, block in enumerate(row):
                     mc.setBlock(block, Vec3(x + dx, y + dy, z + dz))
 
-    print("Success!")
+    print("All blocks have been built!")
